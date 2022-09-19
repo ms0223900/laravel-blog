@@ -30,4 +30,9 @@ Route::get('user/{id}', function($id) {
 
 // Route::get('products', [App\Http\Controllers\ProductController::class, 'index']);
 // Route::post('products', [App\Http\Controllers\ProductController::class, 'store']);
-Route::apiResource('product', App\Http\Controllers\ProductController::class);
+// Route::apiResource('product', App\Http\Controllers\ProductController::class);
+
+
+// Route::get('posts', [App\Http\Controllers\PostController::class, 'index']);
+Route::apiResource('posts', App\Http\Controllers\PostController::class);
+

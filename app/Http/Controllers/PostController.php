@@ -14,7 +14,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // 
+        $posts = Post::all();
+        // echo($posts);
+        return $posts;
     }
 
     /**
@@ -36,6 +39,13 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        Post::create([
+            'title' => $request->input('title'),
+            'subTitle' => $request->input('subTitle'),
+            'content' => $request->input('content'),
+        ]);
+
+        return Post::all();
     }
 
     /**
@@ -47,6 +57,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
         //
+        return Post::findOrFail($post->id); // 這會給not found或單一數值
+        // return Post::all()->where('id', $post->id); // 這會給陣列
     }
 
     /**
@@ -70,6 +82,17 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //
+        $target = Post::findOrFail($post->id);
+
+        $target->update($request->input());
+
+        // 下面這方法會變成「每個欄位」都必填
+        // $target->update([
+        //     'title' => $request->input('title'),
+        //     'subTitle' => $request->input('subTitle'),
+        //     'content' => $request->input('content'),
+        // ]);
+        return $target;
     }
 
     /**
@@ -81,5 +104,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+        $deleted = $this->show($post)->delete();
+        return $deleted;
     }
 }

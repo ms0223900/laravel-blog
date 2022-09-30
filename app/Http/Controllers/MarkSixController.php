@@ -52,8 +52,10 @@ class MarkSixController extends Controller
         $path = "public"."/mark-six/{$year}.json";
         // print($path);
         $markSixJsonContent = Storage::get($path);
-        if(!$markSixJsonContent) return null;
-        return (($markSixJsonContent));
+        if(!$markSixJsonContent) {
+            return response('null', 404)->header('Content-Type', 'application/json');
+        };
+        return (json_decode($markSixJsonContent));
     }
 
     /**

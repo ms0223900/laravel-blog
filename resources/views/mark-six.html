@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+</body>
+<script>
+    const fetchMarkSixData = (year) => fetch(`http://localhost:8000/api/mark-six/${year}`).then(res => res.json());
+
+    window.onload = () => {
+        (async () => {
+            const getQueryVal = (key) => (
+                new URLSearchParams(new URL(window.location.href).search).get(key)
+            )
+            const year = getQueryVal('year') || 2022;
+
+            const res = await fetchMarkSixData(year);
+
+            const app = document.getElementById('app');
+            if (!res) {
+                window.alert('No data found :(');
+                app.innerHTML = '<h1>No data found</h1>'
+                return;
+            }
+
+            const periodKeys = Object.keys(res);
+            const trList = periodKeys.map(pe => (
+                `<tr>
+                    ${[`//No. ${pe}//`, ...res[pe]].map(num => (`<td>${num}</td>`)).join('')}    
+                </tr>`
+            ));
+
+
+            app.innerHTML = `<table border="1" border-collapse="">${trList.join('')}</table>`;
+        })()
+    }
+
+</script>
+
+</html>

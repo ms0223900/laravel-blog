@@ -35,6 +35,7 @@ Route::get('user/{id}', function($id) {
 
 // Route::get('posts', [App\Http\Controllers\PostController::class, 'index']);
 Route::apiResource('posts', App\Http\Controllers\PostController::class);
+Route::apiResource('comments', App\Http\Controllers\CommentController::class);
 
 Route::get('mark-six/{year}', [App\Http\Controllers\MarkSixController::class, 'show']);
 // Route::get('mark-six/{year}', function($year) {

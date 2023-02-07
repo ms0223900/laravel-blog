@@ -7,6 +7,22 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param Post $post
+     */
+    public function __construct(Post $post)
+    {
+        $this->postModel = $post;
+    }
+
+    private function get_posts_by_model() {
+        $posts = $this->postModel->with(['comment_list'])->get();
+        return $posts;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,9 +30,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        // 
-        $posts = Post::all();
+        // 以下三個方式生成的結果是「等價」的
+        $posts = $this->get_posts_by_model();
+        // $posts = Post::with(['comment_list'])->get(); // 用with來生成
         // echo($posts);
+
+        // $posts = Post::all(); // 不加上任何方法來生成collection
         return $posts;
     }
 
@@ -55,10 +74,16 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
-    {
-        //
-        return Post::findOrFail($post->id); // 這會給not found或單一數值
-        // return Post::all()->where('id', $post->id); // 這會給陣列
+    { 
+        // 以下兩個是一樣結果的
+        // $target_post = Post::with(['comment_list'])->find($post->id);
+        // return $target_post;
+
+        $target_post = $this->postModel->with(['comment_list'])->findOrFail($post->id);
+        return $target_post;
+
+        // return Post::all()->where('id', $post->id); // 這會給「沒有comment_list」的陣列
+        return Post::with(['comment_list'])->where('id', $post->id)->get(); // 這會給陣列
     }
 
     /**

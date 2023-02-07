@@ -11,6 +11,7 @@ class Post extends Model
     use HasFactory;
     // use SoftDeletes;
 
+    // 這很重要，一定要填！
     // 對應的資料表(table)名稱
     protected $table = 'posts';
 
@@ -44,4 +45,13 @@ class Post extends Model
         'subTitle',
         'content'
     ];
+
+    // 對應外鍵關聯(將post自己的id，對應到comment表格的post_id)
+    public function comment_list() {
+        return $this->hasMany(Comment::class, 'post_id', 'id');
+    }
+
+    // public function getCommentListAttribute() {
+    //     return $this->body;
+    // }
 }

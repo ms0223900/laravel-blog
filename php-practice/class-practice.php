@@ -22,6 +22,8 @@ class TargetClass {
     const SOME_CONS = 100;
 
     public $count = 0;
+
+    private $_count = 0;
     
     static public function compareTwoVar(float $var1, float $var2) {
         return $var1 > $var2;
@@ -54,6 +56,10 @@ print(
 
 print(
     TargetClass::SOME_CONS
+);
+
+print(
+    $target->_count // error
 );
 
 // var_dump(
